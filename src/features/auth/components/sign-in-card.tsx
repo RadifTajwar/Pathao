@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { signIn } from "next-auth/react";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,26 +19,39 @@ import {
     FormControl,
     FormField,
     FormItem,
-  
+
     FormMessage,
 } from "@/components/ui/form";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters"),
+    email: z
+        .string()
+        .min(1, "Email is required")
+        .email("Please enter a valid email address"),
+    password: z
+        .string()
+        .min(8, "Password must be at least 8 characters"),
 });
 
 
 
 export const SignInCard = () => {
+    const { data: session } = useSession();
+    const router = useRouter();
 
+    useEffect(() => {
+        if (!session) {
+            router.push("/sign-in");
+        } else {
+            console.log("Session data:", session);
+        }
+    }, [session, router]);
+
+   
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
             email: "",
@@ -79,33 +93,33 @@ export const SignInCard = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        
-                                    <Input
-                                      
-                                        type="email"
-                                        placeholder="Enter email address"
-                                        {...field}
-                                    />
+
+                                        <Input
+
+                                            type="email"
+                                            placeholder="Enter email address"
+                                            {...field}
+                                        />
                                     </FormControl>
-                                   <FormMessage />
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
 
-                       <FormField
+                        <FormField
                             name="password"
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        
-                                    <Input
-                                        type="password"
-                                        placeholder="Enter password"
-                                        {...field}
-                                    />
+
+                                        <Input
+                                            type="password"
+                                            placeholder="Enter password"
+                                            {...field}
+                                        />
                                     </FormControl>
-                                   <FormMessage />
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -114,10 +128,14 @@ export const SignInCard = () => {
                     </form>
                 </Form>
             </CardContent>
+            <div className="px-7">
+                <Separator />
+            </div>
 
-            <div className="px-7 pb-7 flex flex-col gap-y-4">
+            <CardContent className="p-7 flex flex-col gap-y-4">
                 <Button
-                    disabled={false}
+                    type="button"
+                    onClick={() => signIn("google", { callbackUrl: "/" })}
                     variant="secondary"
                     size="lg"
                     className="w-full"
@@ -125,7 +143,20 @@ export const SignInCard = () => {
                     <FcGoogle className="mr-2 size-5" />
                     Login With Google
                 </Button>
+            </CardContent>
+
+            <div className="px-7">
+                <Separator />
             </div>
+            <CardContent className="p-7 flex items-center justify-center">
+                <p>
+                    Don&apos;t have an account?
+                    <Link href="/sign-up">
+                        <span className="text-blue-700"> Sign Up</span>
+                    </Link>
+
+                </p>
+            </CardContent>
         </Card>
     )
 };
