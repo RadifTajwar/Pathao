@@ -44,11 +44,10 @@ export const SignInCard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!session) {
-            router.push("/sign-in");
-        } else {
-            console.log("Session data:", session);
-        }
+        if (session) {
+            router.push("/");
+           
+        } 
     }, [session, router]);
 
    

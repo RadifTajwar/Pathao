@@ -20,7 +20,9 @@ import {
     FormControl,
     FormMessage,
 } from "@/components/ui/form";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 const signUpSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().min(1, "Email is required").email("Enter a valid email"),
@@ -28,6 +30,18 @@ const signUpSchema = z.object({
 });
 
 export const SignUpCard = () => {
+
+     const { data: session } = useSession();
+        const router = useRouter();
+    
+        useEffect(() => {
+            if (session) {
+                router.push("/");
+              
+            } 
+        }, [session, router]);
+    
+       
     const form = useForm<z.infer<typeof signUpSchema>>({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
