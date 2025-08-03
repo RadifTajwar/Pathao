@@ -37,7 +37,6 @@ export const SignUpCard = () => {
         useEffect(() => {
             if (session) {
                 router.push("/");
-              
             } 
         }, [session, router]);
     
