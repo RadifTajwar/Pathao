@@ -46,11 +46,11 @@ export const SignInCard = () => {
     useEffect(() => {
         if (session) {
             router.push("/");
-           
-        } 
+
+        }
     }, [session, router]);
 
-   
+
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
             email: "",
@@ -60,8 +60,17 @@ export const SignInCard = () => {
     })
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log("Form submitted with values:", values);
-    }
+
+        const user = {
+            email: values.email,
+
+            name: values.email.split("@")[0],
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+
+        router.push("/");
+    };
+
 
     return (
         <Card className="w-full h-full md:w-[487px] border-none shadow-none">

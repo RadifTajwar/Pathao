@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 import { AllBoards, BoardType } from "@/features/boards/components/all-boards";
 import {
@@ -13,37 +11,28 @@ import {
 } from "@/lib/local-storage";
 
 export default function HomePage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
+ 
   const [boards, setBoards] = useState<BoardType[]>([]);
 
-  // Load initial boards from localStorage
+  
   useEffect(() => {
     const stored = getBoards();
     setBoards(stored);
   }, []);
 
-  // Redirect to sign-in if not logged in
-  useEffect(() => {
-    if (!session && status !== "loading") {
-      router.push("/sign-in");
-    }
-  }, [session, status, router]);
 
-  // Add new board
   const addBoard = (newBoard: BoardType) => {
     const updated = addBoardLS(newBoard);
     setBoards(updated);
   };
 
-  // Delete board
+
   const deleteBoard = (id: string) => {
     const updated = deleteBoardLS(id);
     setBoards(updated);
   };
 
-  // Update board title/image
+ 
   const updateBoard = (updatedBoard: BoardType) => {
     const updated = updateBoardLS(updatedBoard);
     setBoards(updated);

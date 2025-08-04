@@ -23,7 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const MAX_FILE_SIZE = 1 * 1024 * 1024;
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/svg+xml"];
 
 const boardSchema = z.object({
@@ -43,9 +43,9 @@ const boardSchema = z.object({
 
 interface CreateBoardFormProps {
   onCreate: (board: { id: string; title: string; image?: string }) => void;
+  onCancel?: () => void;
 }
-
-export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
+export const CreateBoardForm = ({ onCreate,onCancel }: CreateBoardFormProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -85,9 +85,9 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
   return (<>
 
 
-    <Card className="max-w-screen-xl mx-auto h-full border-none shadow-none px-6">
+    <Card className="w-auto mx-auto h-full border-none shadow-none px-6">
       <CardHeader className="flex px-7 pt-7 ">
-        <CardTitle className="text-xl font-bold">Create a new Board</CardTitle>
+        <CardTitle className="text-xl font-bold text-center">Create a new Board</CardTitle>
       </CardHeader>
 
       <div className="px-7 pb-7">
@@ -169,9 +169,14 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
 
 
             <div className="flex flex-wrap justify-between  ">
-              {/* <Button type="button" variant="outline" className="p-6 mb-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="p-6 mb-2"
+                onClick={onCancel}
+              >
                 Cancel
-              </Button> */}
+              </Button>
               <Button type="submit" disabled={isPending} className="p-6">
                 Create Board
               </Button>

@@ -1,10 +1,10 @@
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 import { useState } from "react";
 import { CreateBoardForm } from "@/features/boards/components/create-board-form";
-import type { BoardType } from "@/features/boards/components/all-boards"; // adjust path if needed
+import type { BoardType } from "@/features/boards/components/all-boards";
 
-export function BoardCreateCard({ onCreate }: { onCreate: (board: BoardType) => void; remaining?: number }) {
+export function BoardCreateCard({ onCreate }: { onCreate: (board: BoardType) => void }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,10 +23,8 @@ export function BoardCreateCard({ onCreate }: { onCreate: (board: BoardType) => 
             onCreate(board);
             setOpen(false);
           }}
+          onCancel={() => setOpen(false)}
         />
-        <DialogClose asChild>
-          <Button variant="outline">Cancel</Button>
-        </DialogClose>
       </DialogContent>
     </Dialog>
   );

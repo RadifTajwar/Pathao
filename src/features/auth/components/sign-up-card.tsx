@@ -1,4 +1,5 @@
-import { FcGoogle } from "react-icons/fc";
+"use client";
+
 import {
     Card,
     CardContent,
@@ -16,31 +17,68 @@ import {
     Form,
     FormField,
     FormItem,
-
     FormControl,
     FormMessage,
 } from "@/components/ui/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
+
+
+type LocalUser = {
+    name: string;
+    email: string;
+    password: string;
+};
+
+const USERS_KEY = "demo-users";
+const LOGGEDIN_KEY = "demo-loggedin";
+
+
+function getAllLocalUsers(): LocalUser[] {
+    if (typeof window === "undefined") return [];
+    const usersStr = localStorage.getItem(USERS_KEY);
+    try {
+        return usersStr ? (JSON.parse(usersStr) as LocalUser[]) : [];
+    } catch {
+        return [];
+    }
+}
+
+
+function saveAllLocalUsers(users: LocalUser[]) {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+
+function setLoggedInUser(user: LocalUser) {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(LOGGEDIN_KEY, JSON.stringify(user));
+}
+
+
+
+
+
 const signUpSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().min(1, "Email is required").email("Enter a valid email"),
     password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export const SignUpCard = () => {
 
-     const { data: session } = useSession();
-        const router = useRouter();
-    
-        useEffect(() => {
-            if (session) {
-                router.push("/");
-            } 
-        }, [session, router]);
-    
-       
+export const SignUpCard = () => {
+    const { data: session } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (session) {
+            router.push("/");
+        }
+    }, [session, router]);
+
     const form = useForm<z.infer<typeof signUpSchema>>({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -50,9 +88,21 @@ export const SignUpCard = () => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof signUpSchema>) => {
-        console.log("Sign-up form submitted:", values);
-        // You can replace this with an API call later
+    
+    const onSubmit = (values: LocalUser) => {
+        const users = getAllLocalUsers();
+        const alreadyExists = users.some((u) => u.email === values.email);
+        if (alreadyExists) {
+            toast.error("Email is already registered.");
+            return;
+        }
+        saveAllLocalUsers([...users, values]);
+        setLoggedInUser(values);
+
+        toast.success("Sign up successful!");
+        setTimeout(() => {
+            router.push("/");
+        }, 500);
     };
 
     return (
@@ -60,11 +110,9 @@ export const SignUpCard = () => {
             <CardHeader className="flex items-center justify-center text-center p-7">
                 <CardTitle className="text-2xl">Create an Account</CardTitle>
             </CardHeader>
-
             <div className="px-7 mb-2">
                 <Separator />
             </div>
-
             <CardContent className="p-7">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -80,7 +128,6 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             name="email"
                             control={form.control}
@@ -93,7 +140,6 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             name="password"
                             control={form.control}
@@ -106,21 +152,12 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-
-                        <Button type="submit" size="lg" className="w-full">Signup</Button>
+                        <Button type="submit" size="lg" className="w-full">
+                            Signup
+                        </Button>
                     </form>
                 </Form>
             </CardContent>
-            <div className="px-7">
-                <Separator />
-            </div>
-            <CardContent className="p-7 flex flex-col gap-y-4">
-                <Button variant="secondary" size="lg" className="w-full">
-                    <FcGoogle className="mr-2 size-5" />
-                    Signin With Google
-                </Button>
-            </CardContent>
-
             <div className="px-7">
                 <Separator />
             </div>
@@ -128,9 +165,8 @@ export const SignUpCard = () => {
                 <p>
                     Already have an account?
                     <Link href="/sign-in">
-                            <span className="text-blue-700"> Sign In</span>
+                        <span className="text-blue-700"> Sign In</span>
                     </Link>
-
                 </p>
             </CardContent>
         </Card>

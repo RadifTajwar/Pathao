@@ -1,4 +1,4 @@
-import { GoHome, GoHomeFill ,GoCheckCircle,GoCheckCircleFill} from "react-icons/go";
+import { GoHome, GoHomeFill } from "react-icons/go";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-dropdown-menu";
@@ -10,12 +10,7 @@ const routes = [
     icon: GoHome,
     active: GoHomeFill,
   },
-  {
-    label: "Boards",
-    href: "/boards",
-    icon: GoCheckCircle,
-    active: GoCheckCircleFill,
-  },
+  
 ];
 
 export const Navigation = () => {
