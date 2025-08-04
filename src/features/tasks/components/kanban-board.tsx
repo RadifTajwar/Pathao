@@ -41,7 +41,7 @@ export const KanbanBoard = ({ boardId }: KanbanBoardProps) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       
-      <div className="w-full px-4 py-4" >
+      <div className="w-full px-4 py-4 " >
         <div className="flex gap-4 w-fit min-w-full items-start">
           {boardData?.columnOrder.map((colId) => (
             <ColumnCard
@@ -52,7 +52,7 @@ export const KanbanBoard = ({ boardId }: KanbanBoardProps) => {
             />
           ))}
 
-          <div className="w-64 min-w-[16rem] bg-gray-100/30 rounded-md h-fit px-4 py-6 space-y-2">
+          <div className="w-64 min-w-[16rem] bg-gray-100/30 rounded-md h-fit px-4 py-6 space-y-2 mr-4">
             <Input
               placeholder="New list title"
               value={newColumnTitle}

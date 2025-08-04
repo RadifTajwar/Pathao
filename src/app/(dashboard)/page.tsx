@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { CreateBoardForm } from "@/features/boards/components/create-board-form";
+
 import { AllBoards, BoardType } from "@/features/boards/components/all-boards";
 import {
   getBoards,
@@ -52,6 +52,7 @@ export default function HomePage() {
   return (
     <div className="space-y-10 py-8">
       <AllBoards
+        onCreate={addBoard}
         boards={boards}
         onDelete={deleteBoard}
         onEdit={(id) => {
@@ -64,7 +65,7 @@ export default function HomePage() {
           }
         }}
       />
-      <CreateBoardForm onCreate={addBoard} />
+      
     </div>
   );
 }

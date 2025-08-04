@@ -1,7 +1,6 @@
-// AllBoards.tsx
 
 "use client";
-
+import { BoardCreateCard } from "./boardcreateCard";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
@@ -20,17 +19,19 @@ interface AllBoardsProps {
     boards: BoardType[];
     onDelete: (id: string) => void;
     onEdit: (id: string) => void;
+    onCreate: (board: { id: string; title: string; image?: string }) => void;
 }
 
-export const AllBoards = ({ boards, onDelete, onEdit }: AllBoardsProps) => {
+export const AllBoards = ({ boards, onDelete, onEdit, onCreate }: AllBoardsProps) => {
     return (
-        <div className="p-6 max-w-screen-xl mx-auto">
+        <div className="p-6 max-w-screen-2xl mx-auto">
             <h2 className="text-2xl font-semibold mb-6">Your Boards</h2>
             <Separator className="mb-6" />
 
             {boards.length === 0 ? (
                 <div className="text-center text-muted-foreground text-sm mt-10">
-                    You don’t have any boards yet. Create one to get started!
+                   <p className="my-4"> You don’t have any boards yet. Create one to get started!</p>
+                    <BoardCreateCard onCreate={onCreate}  />
                 </div>
             ) : (
                 <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
@@ -42,6 +43,10 @@ export const AllBoards = ({ boards, onDelete, onEdit }: AllBoardsProps) => {
                             onEdit={onEdit}
                         />
                     ))}
+
+
+
+                    <BoardCreateCard onCreate={onCreate}  />
                 </div>
             )}
         </div>

@@ -1,6 +1,4 @@
-"use client";
 import { FiTrash2 } from "react-icons/fi";
-
 import { useState, useRef, useEffect } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { TaskCard } from "./task-card";
@@ -19,8 +17,6 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [editingTitle, setEditingTitle] = useState(false);
   const [columnTitle, setColumnTitle] = useState(column.title);
-
-
 
   const updateColumnTitle = useKanbanStore((s) => s.updateColumnTitle);
   const deleteColumn = useKanbanStore((s) => s.deleteColumn);
@@ -52,9 +48,10 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
   }, [editingTitle]);
 
   return (
-    <div className="bg-white rounded-md shadow-md w-64 p-4 mb-10 ">
-
-      <div className="flex justify-between">
+    <div className="bg-white rounded-md shadow-md w-64 flex flex-col
+                    max-h-[calc(100vh-130px)] mb-8 p-4">
+      {/* Header - Title and Delete */}
+      <div className="flex justify-between items-center mb-3 flex-shrink-0">
         {editingTitle ? (
           <textarea
             ref={textareaRef}
@@ -78,7 +75,7 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
             }}
             rows={1}
             autoFocus
-            className="w-full resize-none text-sm p-1 outline-none bg-transparent break-words whitespace-pre-wrap"
+            className="w-full resize-none text-sm outline-black bg-transparent break-words whitespace-pre-wrap"
           />
         ) : (
           <div
@@ -97,12 +94,13 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
         </button>
       </div>
 
+      {/* Scrollable Task List */}
       <Droppable droppableId={column.id}>
         {(provided) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="space-y-2 min-h-[60px]"
+            className="flex-1 overflow-y-auto space-y-2 min-h-[5px]"
           >
             {tasks.map((task, idx) => (
               <Draggable key={task.id} draggableId={task.id} index={idx}>
@@ -118,34 +116,35 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
               </Draggable>
             ))}
             {provided.placeholder}
-
-            <div className="pt-2">
-              <textarea
-                ref={textareaRef}
-                placeholder="Add a card"
-                value={taskInput}
-                onChange={(e) => setTaskInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleAddTask();
-                  }
-                }}
-                rows={1}
-                className=" w-full resize-none rounded border text-sm p-2 outline-none overflow-hidden break-words whitespace-pre-wrap"
-              />
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full mt-2"
-                onClick={handleAddTask}
-              >
-                Add card
-              </Button>
-            </div>
           </div>
         )}
       </Droppable>
+
+      {/* Footer - Add Card */}
+      <div className="pt-2 flex-shrink-0">
+        <textarea
+          ref={textareaRef}
+          placeholder="Add a card"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleAddTask();
+            }
+          }}
+          rows={1}
+          className="w-full resize-none rounded border text-sm p-2 outline-none overflow-hidden break-words whitespace-pre-wrap"
+        />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full mt-2"
+          onClick={handleAddTask}
+        >
+          Add card
+        </Button>
+      </div>
     </div>
   );
 };

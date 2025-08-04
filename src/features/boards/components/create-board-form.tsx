@@ -23,7 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+const MAX_FILE_SIZE = 1 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/svg+xml"];
 
 const boardSchema = z.object({
@@ -33,7 +33,7 @@ const boardSchema = z.object({
     .optional()
     .refine(
       (file) => !file || file.size <= MAX_FILE_SIZE,
-      { message: "Max file size is 1MB." }
+      { message: "Max file size is 5MB." }
     )
     .refine(
       (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
@@ -58,14 +58,6 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
   });
 
   const isPending = form.formState.isSubmitting;
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      form.setValue("image", file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
 
 
   const onSubmit = async (values: z.infer<typeof boardSchema>) => {
@@ -92,7 +84,7 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
 
   return (<>
 
-    
+
     <Card className="max-w-screen-xl mx-auto h-full border-none shadow-none px-6">
       <CardHeader className="flex px-7 pt-7 ">
         <CardTitle className="text-xl font-bold">Create a new Board</CardTitle>
@@ -122,47 +114,64 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
 
             <div className="flex flex-col gap-y-2">
               <div className="flex items-center gap-x-5">
-                <Avatar className="w-16 h-16">
-                  {preview ? (
-                    <AvatarImage src={preview} alt="Preview" />
-                  ) : (
-                    <AvatarFallback>B</AvatarFallback>
+                <FormField
+                  name="image"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-x-5">
+                        <Avatar className="w-16 h-16">
+                          {preview && (
+                            <AvatarImage src={preview} alt="Preview" />
+                          )}
+                          <AvatarFallback>
+                            {form.watch("title")?.charAt(0).toUpperCase() || "B"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <p className="text-sm">Board Icon</p>
+                          <p className="text-sm text-muted-foreground">
+                            JPG, PNG, SVG or JPEG, max 5mb
+                          </p>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => inputRef.current?.click()}
+                            disabled={isPending}
+                            className="mt-2 w-fit"
+                          >
+                            Upload Image
+                          </Button>
+                          {/* Hidden controlled input */}
+                          <input
+                            className="hidden"
+                            type="file"
+                            accept=".jpg, .png, .jpeg, .svg"
+                            ref={inputRef}
+                            onChange={e => {
+                              const file = e.target.files?.[0];
+                              field.onChange(file); // update RHF state
+                              setPreview(file ? URL.createObjectURL(file) : null);
+                            }}
+                            disabled={isPending}
+                          />
+                          {/* Show validation error below */}
+                          <FormMessage />
+                        </div>
+                      </div>
+                    </FormItem>
                   )}
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <p className="text-sm">Board Icon</p>
-                  <p className="text-sm text-muted-foreground">
-                    JPG, PNG, SVG or JPEG, max 1mb
-                  </p>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => inputRef.current?.click()}
-                    disabled={isPending}
-                    className="mt-2 w-fit"
-                  >
-                    Upload Image
-                  </Button>
-                  <input
-                    className="hidden"
-                    type="file"
-                    accept=".jpg, .png, .jpeg, .svg"
-                    ref={inputRef}
-                    onChange={handleImageChange}
-                    disabled={isPending}
-                  />
-                </div>
+                />
               </div>
 
             </div>
 
 
             <div className="flex flex-wrap justify-between  ">
-              <Button type="button" variant="outline" className="p-6 mb-2">
+              {/* <Button type="button" variant="outline" className="p-6 mb-2">
                 Cancel
-              </Button>
+              </Button> */}
               <Button type="submit" disabled={isPending} className="p-6">
                 Create Board
               </Button>
