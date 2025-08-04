@@ -32,11 +32,14 @@ export default function BoardPage({ params }: { params: { boardId: string } }) {
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
       }}
     >
-      <div className="h-full w-full overflow-y-auto overflow-x-auto px-6 pt-6">
-        <h1 className="text-xl italic underline font-semibold text-white drop-shadow mb-4 bg-black bg-opacity-15 p-6">
+      <div className="sticky top-0 z-20 bg-black/30 backdrop-blur p-4 text-center">
+        <h1 className="text-xl italic underline font-semibold text-white drop-shadow">
           {boardTitle}
         </h1>
-        <KanbanBoard boardId={params.boardId}/>
+      </div>
+      <div className="h-full w-full overflow-y-auto overflow-x-auto ">
+
+        <KanbanBoard boardId={params.boardId} />
       </div>
     </div>
   );
