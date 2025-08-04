@@ -1,35 +1,24 @@
-# Pathao – Kanban Board App
+# Pathao - Kanban Project Management App
 
-A **Trello-inspired Kanban board** for project and task management, built with [Next.js 14](https://nextjs.org/), TypeScript, Zustand, shadcn/ui, Google OAuth, and drag-and-drop.  
-**Live Demo:** [pathao-orpin.vercel.app](https://pathao-orpin.vercel.app)
+A full-featured Kanban board application built with **Next.js 14**, **TypeScript**, **Zustand** (state management), **shadcn/ui**, **Tailwind CSS**, and **NextAuth** for Google OAuth & password authentication.
 
----
+> Inspired by Trello, but with a modern stack and fully customizable.
 
-## ✨ Features
+<br/>
 
-- **Multiple Boards:** Create as many boards as you want; each board has its own columns and tasks.
-- **Drag & Drop:** Reorder tasks within columns, move tasks across columns (powered by `@hello-pangea/dnd`).
-- **Editable:** Click on tasks and column titles to edit them instantly.
-- **Color Labels:** Choose from 6 task label colors (set color with a click).
-- **Delete:** Remove columns (and their tasks) or delete individual tasks easily.
-- **Board Images:** Assign an image to each board for a personalized background.
-- **Authentication:** Sign in with Google (NextAuth.js), or use email/password (stored in local storage).
-- **State Persistence:** All your data persists via Zustand + local storage—**no backend needed** for boards/tasks.
-- **Responsive & Accessible:** Mobile-friendly, keyboard accessible, modern UI via shadcn/ui.
-- **Fast & Modern:** Instant state updates, serverless ready, deployable to Vercel.
+## 🚀 Features
 
----
+- 🔐 Google OAuth and Email/Password authentication (with `next-auth`)
+- 📁 Multiple boards, each with its own background/image
+- 📝 Drag-and-drop Kanban columns & tasks (using `@hello-pangea/dnd`)
+- ✅ Edit, delete, re-order tasks & columns
+- 🎨 Color labels for tasks (with pop-up color picker)
+- 💾 LocalStorage + Zustand persist (your data survives refresh)
+- 📦 Modular codebase, scalable for teams
+- ⚡ Super-fast, modern UI with shadcn and Tailwind
+- ☁️ Easy deployment to Vercel
 
-## 🛠️ Tech Stack
-
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **State:** Zustand (with persistence)
-- **Components/UI:** shadcn/ui, Tailwind CSS, Lucide & React Icons
-- **Drag-and-Drop:** @hello-pangea/dnd
-- **Auth:** NextAuth.js (Google OAuth, custom local signup/signin)
-- **Image Upload:** Local base64, with preview avatar
-- **Deploy:** Vercel
+<br/>
 
 ---
 
@@ -37,7 +26,85 @@ A **Trello-inspired Kanban board** for project and task management, built with [
 
 ### 1. Clone & Install
 
-```bash
+```sh
 git clone https://github.com/RadifTajwar/Pathao.git
 cd Pathao
 npm install
+```
+
+---
+
+### 2. Configure Environment
+
+Create a `.env.local` file in your root directory with these variables (replace with your real values):
+
+```
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXTAUTH_URL=http://localhost:3000
+board_secret_key=abcdefghijklmnopqrstuvwxyz1234567890
+```
+
+- Get Google OAuth credentials at: [Google Developer Console](https://console.developers.google.com/)
+
+---
+
+### 3. Run Locally
+
+```sh
+npm run dev
+```
+
+Open your browser at [http://localhost:3000](http://localhost:3000)
+
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS, shadcn/ui
+- **State Management:** Zustand + persist middleware
+- **Drag-and-Drop:** [@hello-pangea/dnd](https://github.com/hello-pangea/dnd)
+- **Authentication:** NextAuth (Google OAuth + Credentials)
+- **Icons:** lucide-react, react-icons
+- **Avatar/Image:** shadcn/ui
+
+---
+
+## 🗂️ Folder Structure
+
+
+---
+
+## 📝 Usage Notes
+
+- **Boards & Tasks**: All user data is persisted locally (Zustand + localStorage).
+- **Auth**: Supports both Google login and email/password (uses NextAuth.js).
+- **No server/database needed** (except for NextAuth providers).
+- **Easy theming**: Update Tailwind config or shadcn components to change look.
+
+---
+
+## 🤝 Contributing
+
+Pull requests and issues are welcome!  
+Please open an issue if you find a bug or want a new feature.
+
+---
+
+
+
+## 🙏 Special Thanks
+
+- [Next.js](https://nextjs.org/)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [NextAuth.js](https://next-auth.js.org/)
+
+---
+
+**Built by [Radif Tajwar](https://github.com/RadifTajwar) with ❤️**
