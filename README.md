@@ -1,4 +1,4 @@
-# Pathao - Kanban Project Management App
+# Pathao - Project Management App
 
 A full-featured Kanban board application built with **Next.js 14**, **TypeScript**, **Zustand** (state management), **shadcn/ui**, **Tailwind CSS**, and **NextAuth** for Google OAuth & password authentication.
 
