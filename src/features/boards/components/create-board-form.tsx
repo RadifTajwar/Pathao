@@ -68,30 +68,32 @@ export const CreateBoardForm = ({ onCreate }: CreateBoardFormProps) => {
   };
 
 
-const onSubmit = async (values: z.infer<typeof boardSchema>) => {
-  let base64Image: string | undefined;
+  const onSubmit = async (values: z.infer<typeof boardSchema>) => {
+    let base64Image: string | undefined;
 
-  if (values.image instanceof File) {
-    base64Image = await toBase64(values.image);
-  } else {
-    
-    base64Image = "/coffee.jpg";
-  }
+    if (values.image instanceof File) {
+      base64Image = await toBase64(values.image);
+    } else {
 
-  const newBoard = {
-    id: Date.now().toString(),
-    title: values.title,
-    image: base64Image,
+      base64Image = "/coffee.jpg";
+    }
+
+    const newBoard = {
+      id: Date.now().toString(),
+      title: values.title,
+      image: base64Image,
+    };
+
+    onCreate(newBoard); // Pass to parent or save in localStorage etc.
+    form.reset();
+    setPreview(null);
   };
 
-  onCreate(newBoard); // Pass to parent or save in localStorage etc.
-  form.reset(); 
-  setPreview(null); 
-};
 
+  return (<>
 
-  return (
-    <Card className="w-full h-full border-none shadow-none">
+    
+    <Card className="max-w-screen-xl mx-auto h-full border-none shadow-none px-6">
       <CardHeader className="flex px-7 pt-7 ">
         <CardTitle className="text-xl font-bold">Create a new Board</CardTitle>
       </CardHeader>
@@ -107,8 +109,8 @@ const onSubmit = async (values: z.infer<typeof boardSchema>) => {
               name="title"
               control={form.control}
               render={({ field }) => (
-                  <FormItem>
-                      <p>Board Title</p>
+                <FormItem>
+                  <p>Board Title</p>
                   <FormControl>
                     <Input placeholder="Enter Board Title" {...field} />
                   </FormControl>
@@ -117,7 +119,7 @@ const onSubmit = async (values: z.infer<typeof boardSchema>) => {
               )}
             />
 
-         
+
             <div className="flex flex-col gap-y-2">
               <div className="flex items-center gap-x-5">
                 <Avatar className="w-16 h-16">
@@ -153,10 +155,10 @@ const onSubmit = async (values: z.infer<typeof boardSchema>) => {
                   />
                 </div>
               </div>
-              
+
             </div>
 
-            
+
             <div className="flex flex-wrap justify-between  ">
               <Button type="button" variant="outline" className="p-6 mb-2">
                 Cancel
@@ -169,5 +171,6 @@ const onSubmit = async (values: z.infer<typeof boardSchema>) => {
         </Form>
       </CardContent>
     </Card>
+  </>
   );
 };

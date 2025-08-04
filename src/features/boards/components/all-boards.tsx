@@ -24,7 +24,7 @@ interface AllBoardsProps {
 
 export const AllBoards = ({ boards, onDelete, onEdit }: AllBoardsProps) => {
     return (
-        <div className="p-6">
+        <div className="p-6 max-w-screen-xl mx-auto">
             <h2 className="text-2xl font-semibold mb-6">Your Boards</h2>
             <Separator className="mb-6" />
 
