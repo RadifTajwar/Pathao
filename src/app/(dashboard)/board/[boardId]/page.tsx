@@ -32,7 +32,7 @@ export default function BoardPage({ params }: { params: { boardId: string } }) {
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
       }}
     >
-      <div className="h-full w-full overflow-y-auto px-6 pt-6">
+      <div className="h-full w-full overflow-y-auto overflow-x-auto px-6 pt-6">
         <h1 className="text-xl italic underline font-semibold text-white drop-shadow mb-4 bg-black bg-opacity-15 p-6">
           {boardTitle}
         </h1>

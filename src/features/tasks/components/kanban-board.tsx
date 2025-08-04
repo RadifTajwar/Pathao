@@ -41,7 +41,7 @@ export const KanbanBoard = ({ boardId }: KanbanBoardProps) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="">{boardId}</div>
-      <div className="w-full overflow-x-auto">
+      <div className="w-full " >
         <div className="flex gap-4 w-fit min-w-full items-start">
           {boardData?.columnOrder.map((colId) => (
             <ColumnCard
