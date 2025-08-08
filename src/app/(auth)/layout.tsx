@@ -2,14 +2,30 @@
 import Link from "next/link";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+
+import { redirect, usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 interface SignInLayoutProps {
     children: React.ReactNode;
 }
 
 
 const SignInLayout=({children}:SignInLayoutProps)=>{
-    const pathName=usePathname();
+    const pathName = usePathname();
+
+     const { data: session, status } = useSession();
+      
+   
+      if (status === "loading") {
+        return <div></div>; 
+      }
+    
+    const user= localStorage.getItem('user');
+      if (session || user) {
+        redirect("/");
+      }
+    
+      console.log("session is ", session);
     return (
         <main className="bg-neutral-100 min-h-screen">
             <div className="mx-auto max-w-screen-2xl p-4">

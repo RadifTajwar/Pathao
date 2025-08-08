@@ -1,8 +1,7 @@
 "use client";
-import { useEffect } from "react";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
-import { usePathname, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 interface DashboardLayoutProps {
@@ -10,25 +9,19 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const pathname = usePathname();
-  const showNavbar = pathname === "/";
-  const router = useRouter();
-
-
   const { data: session, status } = useSession();
+ 
+  if (status === "loading") {
+    return <div></div>; 
+  }
+  const user=localStorage.getItem('user');
 
-  useEffect(() => {
+ 
+  if (!session && !user) {
+    redirect("/sign-in");
+  }
 
-    const user =
-      typeof window !== "undefined"
-        ? localStorage.getItem("user")
-        : null;
-
-    
-    if (!session && status !== "loading" && !user) {
-      router.push("/sign-in");
-    }
-  }, [session, status, router]);
+  console.log("session is ", session);
 
   return (
     <div className="min-h-screen">
@@ -38,10 +31,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </div>
         <div className="lg:pl-[264px] w-full">
           <div className="mx-auto max-w-screen h-full">
-            {showNavbar && <Navbar />}
-            <main className="h-full  px-0 flex flex-col">
-              {children}
-            </main>
+            <Navbar />
+            <main className="h-full px-0 flex flex-col">{children}</main>
           </div>
         </div>
       </div>

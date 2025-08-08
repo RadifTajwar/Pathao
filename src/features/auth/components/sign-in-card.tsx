@@ -1,3 +1,4 @@
+
 import { FcGoogle } from "react-icons/fc";
 import {
     Card,
@@ -6,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
@@ -22,9 +24,8 @@ import {
 
     FormMessage,
 } from "@/components/ui/form";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+
+
 
 
 const formSchema = z.object({
@@ -40,16 +41,9 @@ const formSchema = z.object({
 
 
 export const SignInCard = () => {
-    const { data: session } = useSession();
-    const router = useRouter();
 
-    useEffect(() => {
-        if (session) {
-            router.push("/");
-
-        }
-    }, [session, router]);
-
+    
+    
 
     const form = useForm<z.infer<typeof formSchema>>({
         defaultValues: {
@@ -68,9 +62,10 @@ export const SignInCard = () => {
         };
         localStorage.setItem("user", JSON.stringify(user));
 
-        router.push("/");
+        redirect("/");
     };
 
+   
 
     return (
         <Card className="w-full h-full md:w-[487px] border-none shadow-none">

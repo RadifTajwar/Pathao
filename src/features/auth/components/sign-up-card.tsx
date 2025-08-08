@@ -70,14 +70,8 @@ const signUpSchema = z.object({
 
 
 export const SignUpCard = () => {
-    const { data: session } = useSession();
     const router = useRouter();
-
-    useEffect(() => {
-        if (session) {
-            router.push("/");
-        }
-    }, [session, router]);
+   
 
     const form = useForm<z.infer<typeof signUpSchema>>({
         resolver: zodResolver(signUpSchema),

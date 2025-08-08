@@ -27,12 +27,12 @@ export default function BoardPage({ params }: { params: { boardId: string } }) {
 
   return (
     <div
-      className="w-full bg-cover bg-center overflow-x-auto"
+      className="h-screen w-full bg-cover bg-center overflow-x-auto"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
       }}
     >
-      {/* Sticky bar with fixed height */}
+      
       <div className="sticky top-0 z-20 bg-black/30 backdrop-blur px-4 py-4 h-16 flex items-center justify-between">
         <Link
           href="/"
@@ -47,7 +47,7 @@ export default function BoardPage({ params }: { params: { boardId: string } }) {
         <div className="w-8" />
       </div>
 
-      {/* Main content: Subtract header height from screen height */}
+     
       <div className="w-full" style={{ height: "calc(100vh - 4rem)", overflowY: "auto" }}>
         <KanbanBoard boardId={params.boardId} />
       </div>

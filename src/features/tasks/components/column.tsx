@@ -50,7 +50,7 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
   return (
     <div className="bg-white rounded-md shadow-md w-64 flex flex-col
                     max-h-[calc(100vh-130px)] mb-8 p-4">
-      {/* Header - Title and Delete */}
+      
       <div className="flex justify-between items-center mb-3 flex-shrink-0">
         {editingTitle ? (
           <textarea
@@ -94,7 +94,7 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
         </button>
       </div>
 
-      {/* Scrollable Task List */}
+   
       <Droppable droppableId={column.id}>
         {(provided) => (
           <div
@@ -120,7 +120,7 @@ export const ColumnCard = ({ column, tasks, boardId }: ColumnProps) => {
         )}
       </Droppable>
 
-      {/* Footer - Add Card */}
+  
       <div className="pt-2 flex-shrink-0">
         <textarea
           ref={textareaRef}

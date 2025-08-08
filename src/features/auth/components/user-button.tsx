@@ -36,7 +36,7 @@ export const UserButton = () => {
     );
   }
 
-  // Prefer NextAuth session, else fallback to local user
+ 
   const { name, email } = session?.user || localUser || {};
   const avatarFallback = name
     ? name.charAt(0).toUpperCase()
@@ -45,7 +45,7 @@ export const UserButton = () => {
     : "U";
 
   const handleLogout = () => {
-    // Remove local user if exists
+
     localStorage.removeItem("user");
     signOut({ callbackUrl: "/sign-in" });
   };

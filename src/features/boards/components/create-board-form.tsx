@@ -76,7 +76,7 @@ export const CreateBoardForm = ({ onCreate,onCancel }: CreateBoardFormProps) => 
       image: base64Image,
     };
 
-    onCreate(newBoard); // Pass to parent or save in localStorage etc.
+    onCreate(newBoard); 
     form.reset();
     setPreview(null);
   };
@@ -143,7 +143,7 @@ export const CreateBoardForm = ({ onCreate,onCancel }: CreateBoardFormProps) => 
                           >
                             Upload Image
                           </Button>
-                          {/* Hidden controlled input */}
+                        
                           <input
                             className="hidden"
                             type="file"
@@ -151,12 +151,12 @@ export const CreateBoardForm = ({ onCreate,onCancel }: CreateBoardFormProps) => 
                             ref={inputRef}
                             onChange={e => {
                               const file = e.target.files?.[0];
-                              field.onChange(file); // update RHF state
+                              field.onChange(file); 
                               setPreview(file ? URL.createObjectURL(file) : null);
                             }}
                             disabled={isPending}
                           />
-                          {/* Show validation error below */}
+                          
                           <FormMessage />
                         </div>
                       </div>
