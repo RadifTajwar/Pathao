@@ -20,9 +20,9 @@ import {
     FormControl,
     FormMessage,
 } from "@/components/ui/form";
-import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+
 import { toast } from "sonner";
 
 
